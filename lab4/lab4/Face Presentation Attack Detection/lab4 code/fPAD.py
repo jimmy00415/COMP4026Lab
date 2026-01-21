@@ -2,9 +2,13 @@ import cv2
 import os
 from skimage.feature import local_binary_pattern
 import numpy as np
+from pathlib import Path
 
+script_dir = Path(__file__).resolve().parent
+data_dir = script_dir.parent / "lab4 data"
+cascade_path = script_dir / "haarcascade_frontalface_default.xml"
 
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier(str(cascade_path))
 #  OpenCV already contains many pre-trained classifiers for face. 
 #  We need to load the required pre-trained XML classifiers.
 
@@ -42,7 +46,7 @@ def LBPExt(grayimg):
 FeatureList = []
 LabelList = []
 
-TrainDir = '../lab4 data/training/'
+TrainDir = str(data_dir / 'training')
 Seclist = os.listdir(TrainDir)
 
 for SecNum in range(len(Seclist)):
@@ -51,7 +55,11 @@ for SecNum in range(len(Seclist)):
     
     Imglist = os.listdir(SecDir)
     for ImgNum in range(len(Imglist)):
+        if Imglist[ImgNum].startswith('.'):
+            continue
         image = cv2.imread(os.path.join(TrainDir, SecName, Imglist[ImgNum]))
+        if image is None:
+            continue
         DetectedFace,_ = FaceDetction(image)
         
         # if face detector successfully detect the face
@@ -78,22 +86,26 @@ knn.train(TrainFeature, cv2.ml.ROW_SAMPLE, TrainLabel)
 
 
 # KNN Testing  
-test_way = 'cam'
+test_way = 'img'  # Change to 'cam' for camera testing
 if test_way == 'img':
     # Testing data of LBP feature and label
     FeatureList = []
     LabelList = []
     
-    TrainDir = '../lab4 data/testing/'
-    Seclist = os.listdir(TrainDir)
+    TestDir = str(data_dir / 'testing')
+    Seclist = os.listdir(TestDir)
     
     for SecNum in range(len(Seclist)):
         SecName = Seclist[SecNum]
-        SecDir = os.path.join(TrainDir, SecName)
+        SecDir = os.path.join(TestDir, SecName)
         
         Imglist = os.listdir(SecDir)
         for ImgNum in range(len(Imglist)):
-            image = cv2.imread(os.path.join(TrainDir, SecName, Imglist[ImgNum]))
+            if Imglist[ImgNum].startswith('.'):
+                continue
+            image = cv2.imread(os.path.join(TestDir, SecName, Imglist[ImgNum]))
+            if image is None:
+                continue
             DetectedFace,_ = FaceDetction(image)
             # if face detector successfully detect the face
             if DetectedFace is not None:
