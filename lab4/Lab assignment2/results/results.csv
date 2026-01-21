@@ -1,0 +1,4 @@
+Training Size,Overall Accuracy (%),Total Tests,Correct Predictions,Person 1 Accuracy (%),Person 2 Accuracy (%),Person 3 Accuracy (%)
+10,35.00,60,21,35.00,20.00,50.00
+20,51.67,60,31,55.00,45.00,55.00
+30,45.00,60,27,30.00,40.00,65.00

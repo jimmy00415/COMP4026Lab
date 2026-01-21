@@ -10,7 +10,7 @@ script_dir = Path(__file__).resolve().parent
 cascade_path = script_dir.parent / "lab4" / "Face Recognition" / "lab4 code" / "haarcascade_frontalface_default.xml"
 
 # Subject names (Update with actual names)
-subjects = ["", "Person 1", "Person 2", "Person 3"]
+subjects = ["", "Ariel Sharon", "Colin Powell", "Donald Rumsfeld"]
 
 # Training set sizes to test
 training_sizes = [10, 20, 30]
