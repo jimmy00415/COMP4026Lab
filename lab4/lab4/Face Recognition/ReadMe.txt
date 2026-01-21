@@ -1,0 +1,1 @@
+Fig.2 https://github.com/informramiz/opencv-face-recognition-python
